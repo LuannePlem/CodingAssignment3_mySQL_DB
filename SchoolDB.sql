@@ -15,13 +15,19 @@ CREATE DATABASE SchoolDB;
 -- Switch to the database
 USE SchoolDB;
 
+-- Drop table if they exist to ensure proper ID numbering
+DROP TABLE IF EXISTS Enrollments;
+DROP TABLE IF EXISTS Students;
+DROP TABLE IF EXISTS Courses;
+
 -- Create Students table
 CREATE TABLE Students (
-    student_id INT PRIMARY KEY,
+    student_id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(100),
     age INT,
     major VARCHAR(100)
-);
+) AUTO_INCREMENT=1;
+
 
 -- Create Courses table
 CREATE TABLE Courses (

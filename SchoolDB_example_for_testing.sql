@@ -11,6 +11,11 @@ CREATE DATABASE SchoolDB;
 -- Switch to the database
 USE SchoolDB;
 
+-- Drop table if they exist to ensure proper ID numbering
+DROP TABLE IF EXISTS Enrollments;
+DROP TABLE IF EXISTS Students;
+DROP TABLE IF EXISTS Courses;
+
 -- Create Students table
 CREATE TABLE Students (
     student_id INT PRIMARY KEY,

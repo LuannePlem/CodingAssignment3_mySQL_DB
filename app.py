@@ -8,7 +8,7 @@ def connect_db():
     return mysql.connector.connect(
         host="localhost",       # or your MySQL server IP
         user="root",            # change if you have another user
-        password="a1b2SQL04!!",  # <-- replace with your MySQL password
+        password="a1b2SQL04!!",  # MySQL password
         database="SchoolDB"
     )
 
@@ -23,7 +23,6 @@ def add_student():
     major = input("Enter student major: ")
 
     sql = "INSERT INTO Students (name, age, major, student_id) VALUES (%s, %s, %s, NULL)"
-    # Better: let MySQL auto-increment IDs if you adjust schema. For now, manually increment.
     cursor.execute("SELECT IFNULL(MAX(student_id), 0) + 1 FROM Students")
     new_id = cursor.fetchone()[0]
 
@@ -131,6 +130,20 @@ def menu():
             show_enrollments()
         elif choice == '5':
             print("Exiting...")
+
+            conn = connect_db()
+            cursor = conn.cursor()
+
+            # clear enrollments first (child table)
+            cursor.execute("DELETE FROM Enrollments;")
+            cursor.execute("DELETE FROM Students;")
+            cursor.execute("ALTER TABLE Students AUTO_INCREMENT = 1;")
+
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+            print("Tables cleared and Student IDs reset to 1.")
             t.sleep(1)
             print("Done!")
             break
