@@ -134,14 +134,15 @@ def menu():
             conn = connect_db()
             cursor = conn.cursor()
 
-            # clear enrollments first (child table)
+            # clear child table first (foreign key dependencies)
             cursor.execute("DELETE FROM Enrollments;")
             cursor.execute("DELETE FROM Students;")
-            cursor.execute("ALTER TABLE Students AUTO_INCREMENT = 1;")
+            cursor.execute("DELETE FROM Courses;")
 
-            conn.commit()
-            cursor.close()
-            conn.close()
+            # reset auto-increment counters
+            cursor.execute("ALTER TABLE Enrollments AUTO_INCREMENT = 1;")
+            cursor.execute("ALTER TABLE Students AUTO_INCREMENT = 1;")
+            cursor.execute("ALTER TABLE Courses AUTO_INCREMENT = 101;")  # start courses at 101
 
             print("Tables cleared and Student IDs reset to 1.")
             t.sleep(1)
