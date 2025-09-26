@@ -32,7 +32,7 @@ def add_student():
     cursor.execute(sql, values)
 
     conn.commit()
-    print(f"✅ Student '{name}' added with ID {new_id}")
+    print(f"Student '{name}' added with ID {new_id}")
     cursor.close()
     conn.close()
 
@@ -53,7 +53,7 @@ def add_course():
     cursor.execute(sql, values)
 
     conn.commit()
-    print(f"✅ Course '{course_name}' added with ID {new_id}")
+    print(f"Course '{course_name}' added with ID {new_id}")
     cursor.close()
     conn.close()
 
@@ -131,7 +131,7 @@ def menu():
             show_enrollments()
         elif choice == '5':
             print("Exiting...")
-            t.sleep(3)
+            t.sleep(1)
             print("Done!")
             break
         else:

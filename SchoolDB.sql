@@ -1,3 +1,13 @@
+/* Created by Luanne Plemmons @ 2:22pm on September 26, 2025
+
+
+This database is for use with the app.py python file. 
+The only things to initialize are the tables. This way, there
+are no people in the DB during the start of the .py file. 
+Otherwise, there would have been people with student IDs from
+1-6. 
+*/
+
 DROP DATABASE IF EXISTS SchoolDB;
 -- Create database
 CREATE DATABASE SchoolDB;
@@ -29,64 +39,3 @@ CREATE TABLE Enrollments (
     FOREIGN KEY (student_id) REFERENCES Students(student_id),
     FOREIGN KEY (course_id) REFERENCES Courses(course_id)
 );
-
--- Insert sample students
-INSERT INTO Students (student_id, name, age, major) VALUES
-(1, 'Luanne Plemmons', 21, 'Computer Engineering'),
-(2, 'Lizzie Long', 21, 'Computer Engineering'),
-(3, 'Michael Dye', 21, 'Computer Engineering'),
-(4, 'Mikayla Hubbard', 21, 'Coding and App Development'),
-(5, 'Jane Doe', 20, 'Electrical Engineering'),
-(6, 'John Doe', 18, 'Forensics Engineering');
-
--- Insert sample courses
-INSERT INTO Courses (course_id, course_name, credits) VALUES
-(101, 'ENCE 410 VLSI Design', 3),
-(102, 'Calculus II', 4),
-(103, 'ENCE 420 Software Engineering', 3);
-
--- Insert sample enrollments
-INSERT INTO Enrollments (student_id, course_id, grade) VALUES
-(1, 101, 'A'),
-(2, 101, 'A'),
-(3, 102, 'A'),
-(4, 103, 'A'),
-(5, 102, 'B'),
-(6, 102, 'D');
-
-
--- Queries
-
--- 1. Retrieve all students (& courses)
-SELECT * FROM Students;
-SELECT * FROM Courses;
-
--- 2. Retrieve students older than 20.
-SELECT * FROM Students
-WHERE age > 20;
-
--- 3. Retrieve all courses with credits greater than 3.
-SELECT * FROM Courses
-WHERE credits > 3;
-
--- Enrollment QUERIES
--- 1. List all students with the courses they are enrolled in.
-SELECT s.name AS student_name, c.course_name, e.grade
-FROM Enrollments e
-JOIN Students s ON e.student_id = s.student_id
-JOIN Courses c ON e.course_id = c.course_id;
-
--- 2. Show all students who got grade 'A' in any course
-SELECT s.name AS student_name, c.course_name
-FROM Enrollments e
-JOIN Students s ON e.student_id = s.student_id
-JOIN Courses c ON e.course_id = c.course_id
-WHERE e.grade = 'A';
--- So John Doe and Jane Doe will not show up in this table because
--- they did not get 'A's
-
--- 3. Count how many students are enrolled in each course
-SELECT c.course_name, COUNT(e.student_id) AS total_students
-FROM Courses c
-LEFT JOIN Enrollments e ON c.course_id = e.course_id
-GROUP BY c.course_name;
